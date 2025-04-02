@@ -1,8 +1,10 @@
 import MyNav from "./components/MyNav"
 import MyFooter from "./components/MyFooter"
-import AllTheBooks from "./components/AllTheBooks"
+import SingleBook from "./components/SingleBook"
 import "bootstrap/dist/css/bootstrap.min.css"
 import Welcome from "./components/Welcome"
+import libro from "./libro.json"
+import { Container, Row } from "react-bootstrap"
 
 function App() {
   return (
@@ -12,9 +14,11 @@ function App() {
         <Welcome />
 
         <h1 className=" text-center fw-bold">Libri Horror</h1>
-        <div className="mb-4"></div>
-
-        <AllTheBooks />
+        <Container>
+          <Row className="justify-content-center">
+            <SingleBook libro={libro} />
+          </Row>
+        </Container>
       </main>
       <MyFooter />
     </div>
