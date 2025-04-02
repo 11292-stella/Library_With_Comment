@@ -6,6 +6,7 @@ import Welcome from "./components/Welcome"
 import BookList from "./components/BookList"
 import { Container, Row } from "react-bootstrap"
 import horrorB from "./horror.json"
+import NewBooklist from "./components/NewBooklist"
 
 function App() {
   return (
@@ -17,7 +18,8 @@ function App() {
         <h1 className=" text-center fw-bold">Libri Horror</h1>
         <Container>
           <Row className="justify-content-center">
-            <SingleBook libro={horrorB[100]} />
+            <SingleBook libro={horrorB[120]} />
+            <NewBooklist />
             <BookList libri={horrorB} />
           </Row>
         </Container>
