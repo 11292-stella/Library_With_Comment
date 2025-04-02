@@ -21,8 +21,8 @@ class NewBooklist extends Component {
     )
     return (
       <Container>
-        <Row>
-          <Col>
+        <Row className="justify-content-center">
+          <Col md={8} lg={6}>
             <Form>
               <Form.Group className="mb-3">
                 <Form.Label>Cerca un libro</Form.Label>

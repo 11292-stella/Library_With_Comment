@@ -17,9 +17,10 @@ function App() {
 
         <h1 className=" text-center fw-bold">Libri Horror</h1>
         <Container>
-          <Row className="justify-content-center">
-            <SingleBook libro={horrorB[120]} />
-            <NewBooklist />
+          <Row className="justify-content-center ">
+            <div className="mb-5">
+              <NewBooklist />
+            </div>
             <BookList libri={horrorB} />
           </Row>
         </Container>
