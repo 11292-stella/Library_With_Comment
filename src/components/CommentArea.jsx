@@ -39,16 +39,20 @@ class CommentArea extends Component {
   }
 
   render() {
+    const { comment, elementId } = this.state
+
     return (
       <>
         <Container>
           <Row className="justify-content-center my-5">
             <Col>
-              <ListGroup>
-                {this.state.comment.map((vercom, i) => (
-                  <ListGroup.Item key={i}>{vercom.comment}</ListGroup.Item>
-                ))}
-              </ListGroup>
+              {elementId && (
+                <ListGroup>
+                  {comment.map((vercom, i) => (
+                    <ListGroup.Item key={i}>{vercom.comment}</ListGroup.Item>
+                  ))}
+                </ListGroup>
+              )}
             </Col>
           </Row>
         </Container>
