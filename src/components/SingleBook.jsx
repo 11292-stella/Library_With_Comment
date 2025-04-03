@@ -1,5 +1,5 @@
 import { Col, Card, Button } from "react-bootstrap"
-
+import CommentArea from "./CommentArea"
 const SingleBook = function ({ libro }) {
   return (
     <>
@@ -13,6 +13,7 @@ const SingleBook = function ({ libro }) {
             <Button variant="success">Buy</Button>
           </Card.Body>
         </Card>
+        <CommentArea />
       </Col>
     </>
   )
