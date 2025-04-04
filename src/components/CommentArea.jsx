@@ -1,16 +1,16 @@
 import React, { Component } from "react"
-import { Container, Row, Col, ListGroup } from "react-bootstrap"
 
-const URL = "https://striveschool-api.herokuapp.com/api/comments"
+import CommentsList from "./CommentList"
+import AddComment from "./AddComment"
+const URL = "https://striveschool-api.herokuapp.com/api/comments/"
 
 class CommentArea extends Component {
   state = {
     comment: [],
-    elementId: this.props.asin,
   }
 
   recComment = () => {
-    fetch(URL, {
+    fetch(URL + this.props.asin, {
       headers: {
         Authorization:
           "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2RkMjcwMzM4MzRiZjAwMTUwMDA3MDAiLCJpYXQiOjE3NDM2ODQ3MzYsImV4cCI6MTc0NDg5NDMzNn0.qS52rTci0AyAlbwFKzIjMXL4LY5O0JxHJizWLUJHWUM",
@@ -24,7 +24,7 @@ class CommentArea extends Component {
         }
       })
       .then((data) => {
-        console.log("commenti", data)
+        console.log("DATA", data)
         this.setState({
           comment: data,
         })
@@ -39,24 +39,13 @@ class CommentArea extends Component {
   }
 
   render() {
-    const { comment, elementId } = this.state
-
     return (
-      <>
-        <Container>
-          <Row className="justify-content-center my-5">
-            <Col>
-              {elementId && (
-                <ListGroup>
-                  {comment.map((vercom, i) => (
-                    <ListGroup.Item key={i}>{vercom.comment}</ListGroup.Item>
-                  ))}
-                </ListGroup>
-              )}
-            </Col>
-          </Row>
-        </Container>
-      </>
+      <div>
+        <h2>COMMENTAREA</h2>
+
+        <CommentsList comment={this.state.comment} />
+        <AddComment asin={this.props.asin} />
+      </div>
     )
   }
 }
