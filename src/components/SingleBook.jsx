@@ -9,7 +9,7 @@ class SingleBook extends Component {
   render() {
     const { libro } = this.props
     return (
-      <Col xs={12} sm={6} md={4} lg={2} key={libro.asin} className="mb-3">
+      <Col key={libro.asin} className="mb-3">
         <Card
           style={{ border: this.state.selected ? "3px solid red" : "none" }}
         >

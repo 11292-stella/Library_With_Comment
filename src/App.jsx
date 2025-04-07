@@ -24,15 +24,11 @@ class App extends Component {
     return (
       <Container fluid>
         <Row>
-          <Col>
+          <Col lg={9} md={8} sm={12}>
             <DinuovoBook libri={horrorB} onBookSelect={this.handleBookSelect} />
           </Col>
-          <Col>
+          <Col lg={3} md={4} sm={12} className="mt-3 mt-lg-0">
             <NewComment asin={this.state.selectedAsin} />
-            {console.log(
-              "Passando ASIN a NewComment:",
-              this.state.selectedAsin
-            )}
           </Col>
         </Row>
       </Container>
