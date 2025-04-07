@@ -15,17 +15,21 @@ class App extends Component {
     selectedAsin: null,
   }
 
+  handleBookSelect = (asin) => {
+    this.setState({ selectedAsin: asin })
+  }
+
   render() {
     return (
       <Container fluid>
         <Row>
-          <Col md={8}>
+          <Col>
             <DinuovoBook
               libri={horrorB}
               onBookSelect={this.handleBookSelect} // Passiamo la funzione per selezionare il libro
             />
           </Col>
-          <Col md={4}>
+          <Col>
             <NewComment asin={this.state.selectedAsin} />
           </Col>
         </Row>

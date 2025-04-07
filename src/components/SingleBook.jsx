@@ -23,7 +23,6 @@ class SingleBook extends Component {
             <Card.Text>Prezzo: {libro.price}€</Card.Text>
             <Card.Text>Categoria: {libro.category}</Card.Text>
             <Button variant="success">Buy</Button>
-            {this.state.selected && <CommentArea asin={libro.asin} />}
           </Card.Body>
         </Card>
       </Col>

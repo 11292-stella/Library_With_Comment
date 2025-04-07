@@ -43,6 +43,12 @@ class CommentArea extends Component {
     this.recComment()
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.asin !== prevProps.asin) {
+      this.recComment()
+    }
+  }
+
   render() {
     return (
       <div>
