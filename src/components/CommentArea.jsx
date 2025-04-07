@@ -10,6 +10,11 @@ class CommentArea extends Component {
   }
 
   recComment = () => {
+    if (!this.props.asin) {
+      console.log("ASIN non definito, fetch annullata")
+      return
+    }
+
     fetch(URL + this.props.asin, {
       headers: {
         Authorization:

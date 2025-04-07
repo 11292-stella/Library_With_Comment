@@ -11,16 +11,19 @@ class SingleBook extends Component {
     return (
       <Col xs={12} sm={6} md={4} lg={2} key={libro.asin} className="mb-3">
         <Card
-          onClick={() => this.setState({ selected: !this.state.selected })}
           style={{ border: this.state.selected ? "3px solid red" : "none" }}
         >
-          <Card.Img variant="top" src={libro.img} />
+          <Card.Img
+            variant="top"
+            src={libro.img}
+            onClick={() => this.setState({ selected: !this.state.selected })}
+          />
           <Card.Body>
             <Card.Title>{libro.title}</Card.Title>
             <Card.Text>Prezzo: {libro.price}€</Card.Text>
             <Card.Text>Categoria: {libro.category}</Card.Text>
             <Button variant="success">Buy</Button>
-            {this.state.selected && <CommentArea libro={libro} />}
+            {this.state.selected && <CommentArea asin={libro.asin} />}
           </Card.Body>
         </Card>
       </Col>
