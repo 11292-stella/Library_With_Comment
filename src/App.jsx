@@ -4,31 +4,34 @@ import SingleBook from "./components/SingleBook"
 import "bootstrap/dist/css/bootstrap.min.css"
 import Welcome from "./components/Welcome"
 import BookList from "./components/BookList"
-import { Container, Row } from "react-bootstrap"
+import { Container, Row, Col } from "react-bootstrap"
 import horrorB from "./horror.json"
-import NewBooklist from "./components/NewBooklist"
+import DinuovoBook from "./components/DinuovoBook"
+import NewComment from "./components/NewComment"
+import { Component } from "react"
 
-function App() {
-  return (
-    <div className="d-flex flex-column min-vh-100">
-      <MyNav />
-      <main className="flex-grow-1 container mt-4">
-        <Welcome />
+class App extends Component {
+  state = {
+    selectedAsin: null,
+  }
 
-        <h1 className=" text-center fw-bold">Libri Horror</h1>
-        <Container>
-          <Row className="justify-content-center ">
-            <SingleBook libro={horrorB[0]} />
-            <div className="mb-5">
-              <NewBooklist />
-            </div>
-            <BookList libri={horrorB} />
-          </Row>
-        </Container>
-      </main>
-      <MyFooter />
-    </div>
-  )
+  render() {
+    return (
+      <Container fluid>
+        <Row>
+          <Col md={8}>
+            <DinuovoBook
+              libri={horrorB}
+              onBookSelect={this.handleBookSelect} // Passiamo la funzione per selezionare il libro
+            />
+          </Col>
+          <Col md={4}>
+            <NewComment asin={this.state.selectedAsin} />
+          </Col>
+        </Row>
+      </Container>
+    )
+  }
 }
 
 export default App
