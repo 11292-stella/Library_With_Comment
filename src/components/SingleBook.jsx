@@ -16,7 +16,11 @@ class SingleBook extends Component {
           <Card.Img
             variant="top"
             src={libro.img}
-            onClick={() => this.setState({ selected: !this.state.selected })}
+            onClick={() => {
+              // Invia l'asin al genitore quando si clicca sull'immagine del libro
+              this.setState({ selected: !this.state.selected })
+              this.props.onBookSelect(libro.asin) // Passa l'asin selezionato al genitore
+            }}
           />
           <Card.Body>
             <Card.Title>{libro.title}</Card.Title>

@@ -1,84 +1,59 @@
 import React, { Component } from "react"
-import AddComment from "./AddComment" // Assumiamo che questo componente sia già definito
-import CommentsList from "./CommentList" // Assumiamo che questo componente sia già definito
 
 const URL = "https://striveschool-api.herokuapp.com/api/comments/"
 
 class NewComment extends Component {
   state = {
-    comments: [], // Stato per i commenti
-    newComment: {
-      // Stato per il commento che l'utente vuole inviare
-      comment: "",
-      rate: "3",
-      elementId: this.props.asin,
-    },
+    comments: [],
+    newComment: "", // dove memorizziamo quello che scrive l’utente
   }
 
-  // Funzione per caricare i commenti dal server
-  fetchComments = () => {
-    const { asin } = this.props
-    if (!asin) return // Se non c'è un asin, non fare nulla
-
-    fetch(URL + asin, {
-      headers: {
-        Authorization: "Bearer <TOKEN>", // Inserisci il tuo token qui
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        this.setState({ comments: data }) // Aggiorna lo stato con i commenti
-      })
-      .catch((error) => console.log("Errore:", error))
-  }
-
-  // Quando l'asin cambia, carica i nuovi commenti
   componentDidUpdate(prevProps) {
     if (prevProps.asin !== this.props.asin) {
+      console.log("ASIN cambiato:", this.props.asin)
       this.fetchComments()
     }
   }
 
-  // Carica i commenti iniziali quando il componente viene montato
-  componentDidMount() {
-    this.fetchComments()
-  }
-
-  // Funzione per gestire l'invio di un nuovo commento
-  handleCommentChange = (e) => {
-    this.setState({
-      newComment: {
-        ...this.state.newComment,
-        [e.target.name]: e.target.value,
+  fetchComments = () => {
+    if (!this.props.asin) return
+    fetch(URL + this.props.asin, {
+      headers: {
+        Authorization:
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2RkMjcwMzM4MzRiZjAwMTUwMDA3MDAiLCJpYXQiOjE3NDM2ODQ3MzYsImV4cCI6MTc0NDg5NDMzNn0.qS52rTci0AyAlbwFKzIjMXL4LY5O0JxHJizWLUJHWUM",
       },
     })
+      .then((response) => response.json())
+      .then((data) => this.setState({ comments: data }))
+      .catch((error) => console.log("Errore nel fetch:", error))
   }
 
   handleSubmit = (e) => {
     e.preventDefault()
     const { newComment } = this.state
+    const { asin } = this.props
 
-    // Invio del nuovo commento
+    if (!newComment || !asin) return
+
     fetch(URL, {
       method: "POST",
-      body: JSON.stringify(newComment),
+      body: JSON.stringify({
+        comment: newComment,
+        rate: 5, // rate fisso
+        elementId: asin,
+      }),
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer <TOKEN>", // Inserisci il tuo token qui
+        Authorization:
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2RkMjcwMzM4MzRiZjAwMTUwMDA3MDAiLCJpYXQiOjE3NDM2ODQ3MzYsImV4cCI6MTc0NDg5NDMzNn0.qS52rTci0AyAlbwFKzIjMXL4LY5O0JxHJizWLUJHWUM",
       },
     })
-      .then((response) => {
-        if (response.ok) {
-          alert("Commento inviato con successo!")
-          this.setState({
-            newComment: { comment: "", rate: "3", elementId: this.props.asin }, // Reset del form
-          })
-          this.fetchComments() // Ricarica i commenti
-        } else {
-          throw new Error("Errore nell'invio del commento")
-        }
+      .then((res) => res.json())
+      .then(() => {
+        this.setState({ newComment: "" })
+        this.fetchComments()
       })
-      .catch((error) => console.error("Errore:", error))
+      .catch((error) => console.log("Errore POST:", error))
   }
 
   render() {
@@ -91,36 +66,22 @@ class NewComment extends Component {
         {asin ? (
           <>
             <form onSubmit={this.handleSubmit}>
-              <div>
-                <label htmlFor="comment">Scrivi un commento:</label>
-                <textarea
-                  id="comment"
-                  name="comment"
-                  value={newComment.comment}
-                  onChange={this.handleCommentChange}
-                  required
-                />
-              </div>
-              <div>
-                <label htmlFor="rate">Voto:</label>
-                <select
-                  id="rate"
-                  name="rate"
-                  value={newComment.rate}
-                  onChange={this.handleCommentChange}
-                >
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                </select>
-              </div>
-              <button type="submit">Invia Commento</button>
+              <input
+                type="text"
+                placeholder="Scrivi un commento..."
+                value={newComment}
+                onChange={(e) => this.setState({ newComment: e.target.value })}
+              />
+              <button type="submit">Invia</button>
             </form>
-
-            {/* Mostra la lista dei commenti */}
-            <CommentsList comments={comments} />
+            <h4>Commenti esistenti:</h4>
+            <ul>
+              {comments.length > 0 ? (
+                comments.map((c, i) => <li key={i}>{c.comment}</li>)
+              ) : (
+                <li>Nessun commento ancora.</li>
+              )}
+            </ul>
           </>
         ) : (
           <p>Seleziona un libro per vedere i commenti</p>
