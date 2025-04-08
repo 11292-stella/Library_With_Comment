@@ -9,6 +9,7 @@ import horrorB from "./horror.json"
 import DinuovoBook from "./components/DinuovoBook"
 import NewComment from "./components/NewComment"
 import { useState } from "react"
+import NewBooklist from "./components/NewBooklist"
 
 const App = function () {
   //state = {
@@ -31,6 +32,8 @@ const App = function () {
         <Col lg={3} md={4} sm={12} className="mt-3 mt-lg-0">
           <NewComment asin={selectedAsin} />
         </Col>
+
+        <NewBooklist />
       </Row>
     </Container>
   )

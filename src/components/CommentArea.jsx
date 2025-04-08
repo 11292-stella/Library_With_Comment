@@ -1,21 +1,23 @@
-import React, { Component } from "react"
+import { useState, useEffect } from "react"
 
 import CommentsList from "./CommentList"
 import AddComment from "./AddComment"
 const URL = "https://striveschool-api.herokuapp.com/api/comments/"
 
-class CommentArea extends Component {
-  state = {
-    comment: [],
-  }
+const CommentArea = function (props) {
+  //state = {
+  // comment: [],
+  //}
 
-  recComment = () => {
-    if (!this.props.asin) {
+  const [comment, setComment] = useState([])
+
+  const recComment = () => {
+    if (!props.asin) {
       console.log("ASIN non definito, fetch annullata")
       return
     }
 
-    fetch(URL + this.props.asin, {
+    fetch(URL + props.asin, {
       headers: {
         Authorization:
           "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2RkMjcwMzM4MzRiZjAwMTUwMDA3MDAiLCJpYXQiOjE3NDM2ODQ3MzYsImV4cCI6MTc0NDg5NDMzNn0.qS52rTci0AyAlbwFKzIjMXL4LY5O0JxHJizWLUJHWUM",
@@ -30,35 +32,35 @@ class CommentArea extends Component {
       })
       .then((data) => {
         console.log("DATA", data)
-        this.setState({
-          comment: data,
-        })
+        setComment(data)
       })
       .catch((err) => {
         console.log("errore", err)
       })
   }
 
-  componentDidMount() {
-    this.recComment()
-  }
+  //componentDidMount() {
+  // this.recComment()
+  //}
 
-  componentDidUpdate(prevProps) {
-    if (this.props.asin !== prevProps.asin) {
-      this.recComment()
-    }
-  }
+  //componentDidUpdate(prevProps) {
+  //  if (this.props.asin !== prevProps.asin) {
+  //   this.recComment()
+  // }
+  //}
 
-  render() {
-    return (
-      <div>
-        <h2>COMMENTAREA</h2>
+  useEffect(() => {
+    recComment()
+  }, [props.asin])
 
-        <CommentsList comment={this.state.comment} />
-        <AddComment asin={this.props.asin} />
-      </div>
-    )
-  }
+  return (
+    <div>
+      <h2>COMMENTAREA</h2>
+
+      <CommentsList comment={comment} />
+      <AddComment asin={props.asin} />
+    </div>
+  )
 }
 
 export default CommentArea
